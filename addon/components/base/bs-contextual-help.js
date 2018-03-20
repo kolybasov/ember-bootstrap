@@ -1,4 +1,4 @@
-import { or, reads, gt } from '@ember/object/computed';
+import { and, or, reads, gt } from '@ember/object/computed';
 import { assert } from '@ember/debug';
 import Component from '@ember/component';
 import { guidFor } from '@ember/object/internals';
@@ -73,7 +73,7 @@ export default Component.extend(TransitionSupport, {
    * @type boolean
    * @private
    */
-  inDom: reads('visible'),
+  inDom: and('visible', 'triggerTargetElement'),
 
   /**
    * Set to false to disable fade animations.
@@ -617,7 +617,7 @@ export default Component.extend(TransitionSupport, {
     this._super(...arguments);
     this.addListeners();
     if (this.get('visible')) {
-      next(this, this._show, true);
+      next(this, this.show, true);
     }
   },
 
